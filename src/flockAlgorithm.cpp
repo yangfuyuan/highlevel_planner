@@ -137,7 +137,7 @@ bool flockAlgorithm::updateGoal()
     printf("\nd = %f\n",dist(&selfPose,&(box[(int)state])));
     //goal needs to be updated
 //TODO fix the waypoint following so you actually get within 10m (typically hits 80).
-    if(state==-1.0 || dist(&selfPose,&(box[(int)state])) < 0.002)
+    if(state==-1.0 || dist(&selfPose,&(box[(int)state])) < 0.02)
     {
       printf("\nGOAL %d REACHED!!",(int)state);
       state++; if(state>3.0){state = 0.0;} //update state
