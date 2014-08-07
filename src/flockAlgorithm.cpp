@@ -11,7 +11,7 @@ void flockAlgorithm::update()
   3) if waypoint changed, pass to data object.
 */
 
-  printf("\n*\n");fflush(stdout);
+//  printf("\n*\n");fflush(stdout);
   //get current data:
   Pose* poslist = data->get_pose_list();
   bool* neighbors = data->get_neighborhood();
@@ -123,7 +123,10 @@ void flockAlgorithm::update()
   
   //TODO change to meters.
   tmpHeading.lat /= N; tmpHeading.lon/=N;
-  atan2f(tmpHeading.lat,tmpHeading.lon);
+//  atan2f(tmpHeading.lat,tmpHeading.lon);
+  //hack:
+  targetDirection = atan2f((nextPos.lat-selfPose.xN),(nextPos.lon-selfPose.yN));
+  printf("Direction: %f\n",targetDirection);
 }
 
 bool flockAlgorithm::updateGoal()
