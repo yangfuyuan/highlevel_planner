@@ -67,7 +67,7 @@ void flockAlgorithm::update()
     {
       
       if(neighbors[i]){
-	printf("n%d ",i);
+	//printf("n%d ",i);
         //If same goal: 
 	if(1) //placeholder until data transfer works.
         //if(coordata[i].msgType == FLOCK_MSGTYPE && coordata[i].FLOCK_TARGETID == state)
@@ -137,8 +137,9 @@ bool flockAlgorithm::updateGoal()
     printf("\nd = %f\n",dist(&selfPose,&(box[(int)state])));
     //goal needs to be updated
 //TODO fix the waypoint following so you actually get within 10m (typically hits 80).
-    if(state==-1.0 || dist(&selfPose,&(box[(int)state])) < 0.01)
+    if(state==-1.0 || dist(&selfPose,&(box[(int)state])) < 0.002)
     {
+      printf("\nGOAL %d REACHED!!",(int)state);
       state++; if(state>3.0){state = 0.0;} //update state
       return true;
     }
