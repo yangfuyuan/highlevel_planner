@@ -41,13 +41,13 @@ class dataManager{
     bool* get_neighborhood();
     Pose* get_pose_list();
     coorData* get_coor_data();
-    void send_coor_data(coorData* cdata);
+    void send_coor_data(coorData* cdata, int uid);
     void send_waypoints(Waypoint* spWps,int numWps);
     void recv_pose_callback(const ap_network_bridge::NetPoseStamped& networkData);
     void odom_msg_callback(const geometry_msgs::PoseWithCovarianceStamped& selfData);
     void coor_data_callback(const highlevel_planner::CoorData& cdata);
+    void resetNeighborList();
   private:
-     void resetNeighborList();
      //Forgive the static memory allocation - C habits die hard.
      bool neighbors[MAX_NEIGHBORS];
      Pose poseList[MAX_NEIGHBORS+1];

@@ -23,12 +23,13 @@ int main(int argc, char**argv){
   //Initialize instance of algorithm to run
   flockAlgorithm flock(&data_manager);
 
-  ros::Rate loop_rate(10);
+  ros::Rate loop_rate(1);
   //Run loop:
   while(ros::ok())
   {
     //gathering data happens automagically
     flock.update();  //Here the algorithm takes in data and updates data_manager with data to send
+    data_manager.resetNeighborList();
     ros::spinOnce();
     loop_rate.sleep();
   }

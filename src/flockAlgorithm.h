@@ -10,8 +10,9 @@
 
 //TODO Convert all internal units to meters. Makes the math too messy (and sensitive) otherwise.
 //Flocking separation
-const float SEPX = 0.0005;
-const float SEPY = 0.0005;
+//Can approximate 10m /approx 0.0001 degrees.
+const float SEPX = 0.0001;
+const float SEPY = 0.0001;
 
 class flockAlgorithm{
   public: 
@@ -20,7 +21,8 @@ class flockAlgorithm{
         lastPos.lat = 0; 
         lastPos.lon = 0;
         targetDirection = 0;
-        state = -1;
+        TOL = 0.0001; //approx 10m
+	state = -1;
 //Load box waypoints
         box[0].xN = 35.716431;
         box[0].yN = -120.762474;
@@ -40,17 +42,20 @@ class flockAlgorithm{
   private:
     //returns the distance between n1, n2 in the x,y plane
     float dist(Pose* n1, Pose* n2);
+    float toMeters(Pose* lla, Pose* metric);
+    float metricDistance(Pose* lla_1, Pose* lla_2);
     //updates goal if necessary, returns whether goal changed.
     bool updateGoal();
     //sets unit to the unit vector pointing from source to dest
     void getHeading(Pose& source, Pose& dest, Waypoint* unit);
     //Projects original 2D vector onto coordinates rotated by angle
-    void proj2D(float angle, Pose& original, Pose& output);
+    void proj2D(const float angle, Pose* original, Pose* output);
     Waypoint lastPos;
     dataManager* data;
     float state;
     float targetDirection;
     Pose box[4];
+    float TOL;
     Pose selfPose;
 };
 

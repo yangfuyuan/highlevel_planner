@@ -30,14 +30,14 @@ coorData* dataManager::get_coor_data()
   return cdataList;
 }
 
-void dataManager::send_coor_data(coorData* cdata)
+void dataManager::send_coor_data(coorData* cdata, int uid)
 {
   highlevel_planner::CoorData msg; 
   msg.msgType = cdata->msgType;
   msg.field1 = cdata->field1;
   msg.field2 = cdata->field2;
   msg.field3 = cdata->field3;
-  msg.uid = 0; //right now I have no access to my own UID; inject at network node?
+  msg.uid = uid; //right now I have no access to my own UID; inject at network node?
   pub_coor_data.publish(msg); //does this work?
 }
 
@@ -90,6 +90,7 @@ void dataManager::odom_msg_callback(const geometry_msgs::PoseWithCovarianceStamp
 
 void dataManager::coor_data_callback(const highlevel_planner::CoorData& cdata)
 {
+  
   neighbors[cdata.uid] = true;
   cdataList[cdata.uid].msgType = cdata.msgType;
   cdataList[cdata.uid].field1 = cdata.field1;
