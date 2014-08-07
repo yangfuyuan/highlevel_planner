@@ -18,7 +18,7 @@
 #include <iostream>
 
 //Define the number of agents in the network at any time
-const int MAX_NEIGHBORS = 50;
+const int MAX_NEIGHBORS = 255;
 
 typedef struct waypoint{
   float lat;

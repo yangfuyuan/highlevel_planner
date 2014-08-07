@@ -47,11 +47,8 @@ void flockAlgorithm::update()
   bool nbrFlag = false;
   for(int i = 0; i < MAX_NEIGHBORS && nbrFlag == false; i++)
   {
-    if(neighbors[i] == true)
-    {
-      printf("n%d ",i);
+    if(neighbors[i])
       nbrFlag = true;
-    }
   }
   //Initialize next position to goal
   Waypoint nextPos;
@@ -63,23 +60,25 @@ void flockAlgorithm::update()
      //I don't think this ever triggers...
   }else if(nbrFlag){ //other neighbors, so attempt to flock
   //Run consensus to find goal direction (most susceptible to asynchronous failure)
-    printf("Neighbors\n");
     float leaderDist = INFINITY; 
     Pose tmpPos;
     //For every neighbor: 
     for(int i = 0; i < MAX_NEIGHBORS; i++)
     {
+      
       if(neighbors[i]){
+	printf("n%d ",i);
         //If same goal: 
-        if(coordata[i].msgType == FLOCK_MSGTYPE && coordata[i].FLOCK_TARGETID == state)
+	if(1) //placeholder until data transfer works.
+        //if(coordata[i].msgType == FLOCK_MSGTYPE && coordata[i].FLOCK_TARGETID == state)
         {
-
+	  
 	  //Vector to neighbor:
 	  tmpPos.xN = (poslist[i]).xN - selfPose.xN;
           tmpPos.yN = (poslist[i]).yN - selfPose.yN;
           	  
-	  if(poslist[i].xN < 1 && poslist[i].yN < 1) break;//not a legitimate point.
-	  if(dist(&(poslist[i]),&selfPose)>TOL) //not yourself
+	  if(poslist[i].xN < 1 && poslist[i].yN < 1){}//not a legitimate point.
+	  else if(dist(&(poslist[i]),&selfPose)>TOL) //not yourself
 	  {
             //run consensus algorithm
             tmpHeading.lat+=coordata[i].FLOCK_TARGETX;
@@ -127,6 +126,7 @@ void flockAlgorithm::update()
   //hack:
   targetDirection = atan2f((nextPos.lat-selfPose.xN),(nextPos.lon-selfPose.yN));
   printf("Direction: %f\n",targetDirection);
+  data->resetNeighborList();
 }
 
 bool flockAlgorithm::updateGoal()
@@ -137,9 +137,8 @@ bool flockAlgorithm::updateGoal()
     printf("\nd = %f\n",dist(&selfPose,&(box[(int)state])));
     //goal needs to be updated
 //TODO fix the waypoint following so you actually get within 10m (typically hits 80).
-    if(state==-1.0 || dist(&selfPose,&(box[(int)state])) < 0.001)
+    if(state==-1.0 || dist(&selfPose,&(box[(int)state])) < 0.01)
     {
-      printf("%f",state);
       state++; if(state>3.0){state = 0.0;} //update state
       return true;
     }

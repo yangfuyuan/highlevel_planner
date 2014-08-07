@@ -29,7 +29,7 @@ int main(int argc, char**argv){
   {
     //gathering data happens automagically
     flock.update();  //Here the algorithm takes in data and updates data_manager with data to send
-    data_manager.resetNeighborList();
+    //data_manager.resetNeighborList();
     ros::spinOnce();
     loop_rate.sleep();
   }
